@@ -64,7 +64,7 @@ public class SmartExpenseAnalyzer {
         analyzer.addExpense("Shopping", "Clothes", 1500);
         analyzer.addExpense("Food", "Dinner", 350);
 
-        System.out.println("===== SMART EXPENSE ANALYZER =====";
+        System.out.println("===== SMART EXPENSE ANALYZER =====");
         System.out.println("Total Expense: ₹" + analyzer.getTotalExpense());
         System.out.println("Highest Expense: ₹" + analyzer.getHighestExpense());
         System.out.println("Food Expenses: ₹" +
