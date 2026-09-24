@@ -43,3 +43,7 @@ java -cp target/classes SmartExpenseAnalyzer    # run the demo in main()
     ├── main/java/SmartExpenseAnalyzer.java
     └── test/java/SmartExpenseAnalyzerTest.java
 ```
+
+---
+
+© 2026 Kantapalli Sobhana Aishwarya. All rights reserved. Shared for portfolio viewing; please ask before reusing.
