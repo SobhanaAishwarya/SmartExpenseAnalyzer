@@ -1,0 +1,37 @@
+name: Smart Expense Analyzer CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Set up Java 21
+        uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: "21"
+          cache: maven
+
+      - name: Test and package
+        run: mvn --batch-mode --no-transfer-progress clean test package
+
+      - name: Build Docker image
+        run: docker build --tag smart-expense-analyzer:${{ github.sha }} .
+
+      - name: Save application JAR
+        uses: actions/upload-artifact@v6
+        with:
+          name: smart-expense-analyzer-jar
+          path: target/smart-expense-analyzer-1.0.0.jar
