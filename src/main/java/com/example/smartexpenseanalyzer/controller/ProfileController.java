@@ -1,0 +1,3 @@
+package com.example.smartexpenseanalyzer.controller;
+import jakarta.servlet.http.HttpSession; import org.springframework.web.bind.annotation.*; import java.util.*;
+@RestController @RequestMapping("/api/profile") public class ProfileController { private final com.example.smartexpenseanalyzer.service.ApiFacade app; public ProfileController(com.example.smartexpenseanalyzer.service.ApiFacade app){this.app=app;} @GetMapping public Map<String,Object> current(HttpSession session){return app.current(session);} @PutMapping("/budget") public Map<String,Object> budget(@RequestBody Map<String,String> body,HttpSession session){return app.budget(body,session);} }

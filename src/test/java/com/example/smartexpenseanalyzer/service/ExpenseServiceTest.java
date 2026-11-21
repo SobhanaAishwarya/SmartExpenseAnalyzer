@@ -1,0 +1,3 @@
+package com.example.smartexpenseanalyzer.service;
+import org.junit.jupiter.api.Test; import java.math.BigDecimal; import static org.junit.jupiter.api.Assertions.*;
+class ExpenseServiceTest { private final ExpenseService service=new ExpenseService(null); @Test void acceptsPositiveInrAmountWithTwoDecimals(){assertDoesNotThrow(()->service.validateAmount(new BigDecimal("125.50")));} @Test void rejectsZeroAndNegativeAmounts(){assertThrows(IllegalArgumentException.class,()->service.validateAmount(BigDecimal.ZERO));assertThrows(IllegalArgumentException.class,()->service.validateAmount(new BigDecimal("-1")));} @Test void rejectsAmountsWithMoreThanTwoDecimalPlaces(){assertThrows(IllegalArgumentException.class,()->service.validateAmount(new BigDecimal("10.001")));} }

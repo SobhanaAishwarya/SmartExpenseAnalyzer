@@ -1,0 +1,3 @@
+package com.example.smartexpenseanalyzer.util;
+import com.example.smartexpenseanalyzer.model.Expense; import java.math.BigDecimal; import java.util.Collection;
+public final class MoneyUtils { private MoneyUtils(){} public static BigDecimal total(Collection<Expense> expenses){return expenses.stream().map(e->e.amount).reduce(BigDecimal.ZERO,BigDecimal::add);} public static BigDecimal highest(Collection<Expense> expenses){return expenses.stream().map(e->e.amount).max(BigDecimal::compareTo).orElse(BigDecimal.ZERO);} public static BigDecimal remaining(BigDecimal budget,BigDecimal spent){return budget.subtract(spent);} }

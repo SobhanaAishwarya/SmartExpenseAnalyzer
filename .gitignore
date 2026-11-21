@@ -1,1 +1,6 @@
-target/ 
+target/
+data/*
+!data/.gitkeep
+.env
+*.mv.db
+*.trace.db

@@ -1,0 +1,2 @@
+package com.example.smartexpenseanalyzer.repository;
+import com.example.smartexpenseanalyzer.model.*; import org.springframework.data.jpa.repository.JpaRepository; import java.util.*; public interface ExpenseRepository extends JpaRepository<Expense,Long>{ List<Expense> findByUserOrderByDateDesc(AppUser user); List<Expense> findAllByOrderByDateDesc(); Optional<Expense> findByIdAndUser(Long id,AppUser user); }

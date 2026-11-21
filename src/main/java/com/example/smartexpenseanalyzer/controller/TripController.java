@@ -1,0 +1,3 @@
+package com.example.smartexpenseanalyzer.controller;
+import jakarta.servlet.http.HttpSession; import org.springframework.web.bind.annotation.*; import java.util.*;
+@RestController @RequestMapping("/api/trips") public class TripController { private final com.example.smartexpenseanalyzer.service.ApiFacade app; public TripController(com.example.smartexpenseanalyzer.service.ApiFacade app){this.app=app;} @GetMapping public List<Map<String,Object>> list(HttpSession session){return app.getTrips(session);} @PostMapping public Map<String,Object> create(@RequestBody Map<String,String> body,HttpSession session){return app.addTrip(body,session);} @DeleteMapping("/{id}") public Map<String,String> delete(@PathVariable Long id,HttpSession session){return app.delTrip(id,session);} }

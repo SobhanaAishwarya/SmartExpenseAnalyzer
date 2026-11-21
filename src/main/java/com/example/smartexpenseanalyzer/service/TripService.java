@@ -1,0 +1,3 @@
+package com.example.smartexpenseanalyzer.service;
+import com.example.smartexpenseanalyzer.model.*; import com.example.smartexpenseanalyzer.repository.TripRepository; import org.springframework.stereotype.Service; import java.util.*;
+@Service public class TripService { private final TripRepository repository; public TripService(TripRepository r){repository=r;} public List<Trip> forUser(AppUser user){return repository.findByUserOrderByStartDateDesc(user);} public Optional<Trip> findOwned(Long id,AppUser user){return repository.findByIdAndUser(id,user);} public Trip save(Trip trip){return repository.save(trip);} public void delete(Trip trip){repository.delete(trip);} public void deleteAll(Iterable<Trip> trips){repository.deleteAll(trips);} }

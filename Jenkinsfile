@@ -1,45 +1,19 @@
 pipeline {
-    agent any
-
-    stages {
-        stage('Checkout') {
-            steps {
-                checkout scm
-            }
-        }
-        stage('Build') {
-            steps {
-                bat 'mvn clean compile'
-            }
-        }
-        stage('Test') {
-            steps {
-                bat 'mvn test'
-            }
-        }
-        stage('Package') {
-            steps {
-                bat 'mvn package'
-            }
-        }
+  agent any
+  options { timestamps(); disableConcurrentBuilds() }
+  stages {
+    stage('Checkout') { steps { checkout scm } }
+    stage('Clean and compile') { steps { bat 'mvn -B clean compile' } }
+    stage('Test') { steps { bat 'mvn -B test' } }
+    stage('Package and verify') { steps { bat 'mvn -B package' } }
+    stage('Docker image') {
+      when { expression { fileExists('Dockerfile') } }
+      steps { script {
+        def available = bat(returnStatus: true, script: 'docker version')
+        if (available == 0) { bat 'docker build -t smart-expense-analyzer:%BUILD_NUMBER% .' }
+        else { echo 'Docker CLI or daemon unavailable; image stage skipped.' }
+      } }
     }
-
-    post {
-        success {
-            echo 'CI Pipeline completed successfully!'
-            emailext(
-                subject: "SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-                body: "The Jenkins CI pipeline completed successfully.",
-                to: "aishwaryasobhana@gmail.com"
-            )
-        }
-        failure {
-            echo 'CI Pipeline failed!'
-            emailext(
-                subject: "FAILURE: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-                body: "The Jenkins CI pipeline failed. Please check the console output.",
-                to: "aishwaryasobhana@gmail.com"
-            )
-        }
-    }
+  }
+  post { always { junit allowEmptyResults: true, testResults: 'target/surefire-reports/*.xml'; archiveArtifacts artifacts: 'target/*.jar', fingerprint: true } }
 }
